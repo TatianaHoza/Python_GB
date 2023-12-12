@@ -1,0 +1,35 @@
+'''✔ Напишите функцию, которая открывает на чтение созданные
+в прошлых задачах файлы с числами и именами.
+✔ Перемножьте пары чисел. В новый файл сохраните
+имя и произведение:
+✔ если результат умножения отрицательный, сохраните имя
+записанное строчными буквами и произведение по модулю
+✔ если результат умножения положительный, сохраните имя
+прописными буквами и произведение округлённое до целого.
+✔ В результирующем файле должно быть столько же строк,
+сколько в более длинном файле.
+✔ При достижении конца более короткого файла,
+возвращайтесь в его начало.
+'''
+
+def names_and_nums(file_name):
+    with (
+        open('task_2.txt', 'r', encoding='utf-8') as names,
+        open('task_1.txt', 'r', encoding='utf-8') as nums,
+        open(file_name, 'w', encoding='utf-8') as res
+    ):
+        name_list = list(names)
+        nums_list = list(nums)
+        max_len = max(len(name_list),len(nums_list))
+        names_final,nums_final = [],[]
+        for i in range(max_len):
+            name = name_list[i% len(name_list)].strip()
+            num = int(nums_list[i% len(nums_list)].split('|')[0])*float(nums_list[i% len(nums_list)].split('|')[1])
+            if num >= 0:
+                print(f'{name.upper()} - {float(num)}', file=res)
+            else:
+                print(f'{name.lower()} - {abs(num)}', file=res)
+
+
+if __name__ == '__main__':
+    names_and_nums('../Lesson_8/task_3.txt')
